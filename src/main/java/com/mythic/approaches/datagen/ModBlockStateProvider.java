@@ -19,7 +19,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         pottedFlowerBlock(ModBlocks.POTTED_BELLADONNA, ModBlocks.BELLADONNA);
         flowerBlockWithItem(ModBlocks.MOLY);
         pottedFlowerBlock(ModBlocks.POTTED_MOLY, ModBlocks.MOLY);
-        rotatableCustomBlockWithItem(ModBlocks.CAULDRON);
+        blockWithCustomModel(ModBlocks.CAULDRON);
     }
 
     private void pottedFlowerBlock(DeferredBlock<?> deferredBlock, DeferredBlock<?> block_with_texture) {
@@ -37,5 +37,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     private void rotatableCustomBlockWithItem(DeferredBlock<?> deferredBlock) {
         horizontalBlock(deferredBlock.get(), models().getExistingFile(modLoc("block/" + deferredBlock.getId().getPath())));
+    }
+
+    private void blockWithCustomModel(DeferredBlock<?> deferredBlock) {
+        // This tells the data generator to use an existing model file for the block.
+        simpleBlock(deferredBlock.get(), models().getExistingFile(modLoc("block/" + deferredBlock.getId().getPath())));
+        simpleBlockItem(deferredBlock.get(), models().getExistingFile(modLoc("block/" + deferredBlock.getId().getPath())));
     }
 }

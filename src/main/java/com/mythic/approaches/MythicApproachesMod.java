@@ -2,6 +2,7 @@ package com.mythic.approaches;
 
 import com.mojang.logging.LogUtils;
 import com.mythic.approaches.block.ModBlocks;
+import com.mythic.approaches.block.entity.ModBlockEntities;
 import com.mythic.approaches.item.ModCreativeModeTabs;
 import com.mythic.approaches.item.ModItems;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -35,6 +36,7 @@ public class MythicApproachesMod {
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
 
         modEventBus.addListener(this::addCreative);
 
