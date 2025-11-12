@@ -19,6 +19,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         pottedFlowerBlock(ModBlocks.POTTED_BELLADONNA, ModBlocks.BELLADONNA);
         flowerBlockWithItem(ModBlocks.MOLY);
         pottedFlowerBlock(ModBlocks.POTTED_MOLY, ModBlocks.MOLY);
+        rotatableCustomBlockWithItem(ModBlocks.CAULDRON);
     }
 
     private void pottedFlowerBlock(DeferredBlock<?> deferredBlock, DeferredBlock<?> block_with_texture) {
@@ -32,5 +33,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     private void flowerBlockWithItem(DeferredBlock<?> deferredBlock) {
         simpleBlock(deferredBlock.get(), models().cross(blockTexture(deferredBlock.get()).getPath(), blockTexture(deferredBlock.get())).renderType("cutout"));
+    }
+
+    private void rotatableCustomBlockWithItem(DeferredBlock<?> deferredBlock) {
+        horizontalBlock(deferredBlock.get(), models().getExistingFile(modLoc("block/" + deferredBlock.getId().getPath())));
     }
 }

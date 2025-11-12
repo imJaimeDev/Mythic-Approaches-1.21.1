@@ -2,6 +2,7 @@ package com.mythic.approaches.block;
 
 import com.mythic.approaches.MythicApproachesMod;
 import com.mythic.approaches.block.custom.ParticleFlowerBlock;
+import com.mythic.approaches.block.custom.RotatableBlock;
 import com.mythic.approaches.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -18,11 +19,12 @@ public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS =
             DeferredRegister.createBlocks(MythicApproachesMod.MOD_ID);
 
-    public static final DeferredBlock<Block> CAULDRON = registerBlock("cauldron", () -> new Block(BlockBehaviour.Properties.of()
-            .sound(SoundType.NETHER_ORE)
-            .strength(5f)
-            .noOcclusion()
-            .lightLevel((state) -> 5)));
+    public static final DeferredBlock<Block> CAULDRON = registerBlock("cauldron",
+            () -> new RotatableBlock(BlockBehaviour.Properties.of()
+                    .sound(SoundType.NETHER_ORE)
+                    .strength(5f)
+                    .noOcclusion()
+                    .lightLevel((state) -> 5)));
 
     public static final DeferredBlock<FlowerBlock> BELLADONNA = registerBlock("belladonna",
             () -> new ParticleFlowerBlock(SuspiciousStewEffects.EMPTY,

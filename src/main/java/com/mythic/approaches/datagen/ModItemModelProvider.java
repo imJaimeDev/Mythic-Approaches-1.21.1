@@ -18,10 +18,15 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         flowerBlockItem(ModBlocks.BELLADONNA);
         flowerBlockItem(ModBlocks.MOLY);
+        itemFromCustomBlock(ModBlocks.CAULDRON);
     }
 
     private void flowerBlockItem(DeferredBlock<?> block) {
         withExistingParent(block.getId().getPath(), "item/generated").texture("layer0",
                 modLoc("block/" + block.getId().getPath()));
+    }
+
+    private void itemFromCustomBlock(DeferredBlock<?> block) {
+        withExistingParent(block.getId().getPath(), modLoc("block/" + block.getId().getPath()));
     }
 }
