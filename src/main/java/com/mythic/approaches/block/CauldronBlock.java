@@ -62,48 +62,68 @@ public class CauldronBlock extends BaseEntityBlock {
         super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
-
     @Override
     protected @NotNull ItemInteractionResult useItemOn(
             @NotNull ItemStack stack, @NotNull BlockState state, Level level, @NotNull BlockPos pos,
             @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult
     ) {
+        // if player clicked a cauldron
         if (level.getBlockEntity(pos) instanceof CauldronBlockEntity cauldron) {
-            if (cauldron.inventory.getStackInSlot(0).isEmpty() && !stack.isEmpty()) {
-                cauldron.inventory.insertItem(0, stack.copy(), false);
-                stack.shrink(1);
-                level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1, 2);
+            // Check if empty-handed
+            if (stack.isEmpty()) {
+                int slot = getFirstFullSlot(cauldron);
+                // Retrieved last inserted item
+                if (slot != -1) {
+                    ItemStack retrievedItem = cauldron.inventory.extractItem(slot, 1, false);
+                    player.addItem(retrievedItem);
+                    cauldron.inventory.setStackInSlot(slot, ItemStack.EMPTY);
+                    level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1, 1);
 
-            } else if (stack.isEmpty()) {
-                ItemStack retrievedItem = cauldron.inventory.extractItem(0, 1, false);
-                player.setItemInHand(InteractionHand.MAIN_HAND, retrievedItem);
-                cauldron.clearContents();
-                level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1, 1);
+                    return ItemInteractionResult.SUCCESS;
+                }
+            } else {
+                // Add item to first empty slot
+                int slot = getFirstEmptySlot(cauldron);
+                if (slot != -1 && !stack.isEmpty()) {
+                    cauldron.inventory.insertItem(slot, stack.copy(), false);
+                    stack.shrink(1);
+                    level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1, 2);
 
-            }
-        }
-
-        return ItemInteractionResult.SUCCESS;
-    }
-
-    /*@Override
-    protected @NotNull InteractionResult useWithoutItem(
-            @NotNull BlockState state, Level level, @NotNull BlockPos pos,
-            @NotNull Player player, @NotNull BlockHitResult hitResult
-    ) {
-        if (level.isClientSide)
-            return InteractionResult.SUCCESS;
-
-        if (level.getBlockEntity(pos) instanceof CauldronBlockEntity cauldron) {
-            if (player.isCrouching()) {
-                ItemStack retrievedItem = cauldron.removeItem();
-                if (!retrievedItem.isEmpty()) {
-                    player.getInventory().add(retrievedItem);
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.SUCCESS;
                 }
             }
         }
 
-        return InteractionResult.PASS;
-    }*/
+        return ItemInteractionResult.FAIL;
+    }
+
+    /**
+     * Searches for an empty slot
+     *
+     * @param entity CaldronBlockEntity instance
+     * @return The index of the first empty slot or -1 if there are no empty slots
+     */
+    private int getFirstEmptySlot(CauldronBlockEntity entity) {
+        for (int i = 0; i < CauldronBlockEntity.SLOTS_AMOUNT; i++) {
+            if (entity.inventory.getStackInSlot(i).isEmpty()) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Searches for a full slot
+     *
+     * @param entity CauldronBlockEntity instance
+     * @return The index of the first full slot or -1 if there are no full slots
+     */
+    private int getFirstFullSlot(CauldronBlockEntity entity) {
+        for (int i = CauldronBlockEntity.SLOTS_AMOUNT - 1; i >= 0; i--) {
+            if (!entity.inventory.getStackInSlot(i).isEmpty()) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

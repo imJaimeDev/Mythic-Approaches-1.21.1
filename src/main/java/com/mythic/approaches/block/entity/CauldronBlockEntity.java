@@ -17,7 +17,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class CauldronBlockEntity extends BlockEntity {
-    public final ItemStackHandler inventory = new ItemStackHandler(1) {
+    public static final int SLOTS_AMOUNT = 5;
+
+    public final ItemStackHandler inventory = new ItemStackHandler(SLOTS_AMOUNT) {
         @Override
         protected int getStackLimit(int slot, @NotNull ItemStack stack) {
             return 1;
