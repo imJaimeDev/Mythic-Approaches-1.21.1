@@ -1,15 +1,15 @@
 {
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
-	"textures": {
-		"0": "mythic_approaches:block/cauldron",
-		"1": "mythic_approaches:block/cauldron2",
-		"2": "mythic_approaches:block/cauldron3",
-		"3": "mythic_approaches:block/cauldron4",
-		"4": "mythic_approaches:block/cauldron5",
-		"5": "mythic_approaches:block/cauldron6",
-		"particle": "mythic_approaches:block/cauldron"
-	},
+    "textures": {
+      "0": "mythic_approaches:block/cauldron",
+      "1": "mythic_approaches:block/cauldron2",
+      "2": "mythic_approaches:block/cauldron3",
+      "3": "mythic_approaches:block/cauldron4",
+      "4": "mythic_approaches:block/cauldron5",
+      "5": "mythic_approaches:block/cauldron6",
+      "particle": "mythic_approaches:block/cauldron"
+    },
 	"elements": [
 		{
 			"name": "base",
@@ -140,7 +140,8 @@
 			"scale": [0.6, 0.6, 0.6]
 		},
 		"ground": {
-			"scale": [0.22, 0.22, 0.22]
+			"translation": [0, 3.75, 0],
+			"scale": [0.3, 0.3, 0.3]
 		},
 		"gui": {
 			"rotation": [21.5, -54, 0],
