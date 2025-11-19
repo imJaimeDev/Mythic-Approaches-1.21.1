@@ -6,21 +6,8 @@ import com.mythic.approaches.block.entity.ModBlockEntities;
 import com.mythic.approaches.item.ModCreativeModeTabs;
 import com.mythic.approaches.item.ModItems;
 import com.mythic.approaches.recipes.ModRecipes;
-import com.mythic.approaches.recipes.RightClickBlockInput;
-import com.mythic.approaches.recipes.RightClickBlockRecipe;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.item.crafting.CraftingInput;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -32,11 +19,8 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.entity.player.UseItemOnBlockEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
-
-import java.util.Optional;
 
 @Mod(MythicApproachesMod.MOD_ID)
 public class MythicApproachesMod {
@@ -76,46 +60,6 @@ public class MythicApproachesMod {
     static class ClientModEvents {
         @SubscribeEvent
         static void onClientSetup(FMLClientSetupEvent event) {
-        }
-
-        @SubscribeEvent
-        public static void useItemOnBlock(UseItemOnBlockEvent event) {
-            if (event.getUsePhase() != UseItemOnBlockEvent.UsePhase.BLOCK) return;
-
-            UseOnContext context = event.getUseOnContext();
-            Level level = context.getLevel();
-            BlockPos pos = context.getClickedPos();
-            BlockState blockState = level.getBlockState(pos);
-            ItemStack itemStack = context.getItemInHand();
-            RecipeManager recipes = level.getRecipeManager();
-
-            // Create an input and query the recipe.
-            RightClickBlockInput input = new RightClickBlockInput(blockState, itemStack);
-            Optional<RecipeHolder<RightClickBlockRecipe>> optional = recipes.getRecipeFor(ModRecipes.RIGHT_CLICK_BLOCK.get(), input, level);
-
-            ItemStack result = optional
-                    .map(RecipeHolder::value)
-                    .map(e -> e.assemble(input, level.registryAccess()))
-                    .orElse(ItemStack.EMPTY);
-
-            if (!result.isEmpty()) {
-                // TODO: consume item on use
-                context.getItemInHand().shrink(1);
-
-
-                System.out.println(itemStack);
-                // If the level is not a server level, don't spawn the entity.
-                if (!level.isClientSide()) {
-                    ItemEntity entity = new ItemEntity(level,
-                            // Center of pos.
-                            pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                            result);
-                    level.addFreshEntity(entity);
-                }
-
-                // Cancel the event to stop the interaction pipeline.
-                event.cancelWithResult(ItemInteractionResult.sidedSuccess(level.isClientSide));
-            }
         }
     }
 }

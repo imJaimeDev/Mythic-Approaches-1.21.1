@@ -1,13 +1,12 @@
 package com.mythic.approaches.datagen;
 
-import com.mythic.approaches.recipes.RightClickRecipeBuilder;
+import com.mythic.approaches.recipes.CauldronRecipeBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.*;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,12 +19,17 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildRecipes(@NotNull RecipeOutput recipeOutput) {
-        new RightClickRecipeBuilder(
-                new ItemStack(Items.DIAMOND),
-                Blocks.DIRT.defaultBlockState(),
-                Ingredient.of(Items.APPLE)
-        )
-                .unlockedBy("has_apple", has(Items.APPLE))
-                .save(recipeOutput);
+        CauldronRecipeBuilder.cauldron(Items.DIAMOND)
+                .requires(Items.IRON_INGOT)
+                .requires(Items.GOLD_INGOT)
+                .requires(Items.EMERALD)
+                .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT))
+                .save(recipeOutput, "diamond_from_gems");
+
+        CauldronRecipeBuilder.cauldron(Items.NETHERITE_INGOT, 2)
+                .requires(Items.NETHERITE_SCRAP, 3)
+                .requires(Tags.Items.INGOTS_GOLD, 2)
+                .unlockedBy("has_netherite_scrap", has(Items.NETHERITE_SCRAP))
+                .save(recipeOutput, "netherite_ingots");
     }
 }

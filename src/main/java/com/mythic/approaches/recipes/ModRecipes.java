@@ -17,15 +17,13 @@ public class ModRecipes {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
             DeferredRegister.create(Registries.RECIPE_SERIALIZER, MythicApproachesMod.MOD_ID);
 
-    public static final Supplier<RecipeType<RightClickBlockRecipe>> RIGHT_CLICK_BLOCK =
-            RECIPE_TYPES.register(
-                    "right_click_block",
-                    // We need the qualifying generic here due to generics being generics.
-                    () -> RecipeType.<RightClickBlockRecipe>simple(ResourceLocation.fromNamespaceAndPath(MythicApproachesMod.MOD_ID, "right_click_block"))
+    public static final Supplier<RecipeType<CauldronRecipe>> CAULDRON_TYPE =
+            RECIPE_TYPES.register("cauldron",
+                    () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(MythicApproachesMod.MOD_ID, "cauldron"))
             );
 
-    public static final Supplier<RecipeSerializer<RightClickBlockRecipe>> RIGHT_CLICK_BLOCK_SERIALIZER =
-            RECIPE_SERIALIZERS.register("right_click_block", RightClickBlockRecipe.RightClickBlockRecipeSerializer::new);
+    public static final Supplier<RecipeSerializer<CauldronRecipe>> CAULDRON_SERIALIZER =
+            RECIPE_SERIALIZERS.register("cauldron", CauldronRecipe.Serializer::new);
 
     public static void register(IEventBus eventBus) {
         RECIPE_TYPES.register(eventBus);

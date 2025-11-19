@@ -39,7 +39,9 @@ public class CauldronBlockEntity extends BlockEntity {
     }
 
     public void clearContents() {
-        inventory.setStackInSlot(0, ItemStack.EMPTY);
+        for (int i = 0; i < inventory.getSlots(); i++) {
+            inventory.setStackInSlot(i, ItemStack.EMPTY);
+        }
     }
 
     public void drops() {
@@ -72,5 +74,9 @@ public class CauldronBlockEntity extends BlockEntity {
     @Override
     public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider pRegistries) {
         return saveWithoutMetadata(pRegistries);
+    }
+
+    public ItemStackHandler getInventory() {
+        return inventory;
     }
 }

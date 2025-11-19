@@ -2,19 +2,17 @@ package com.mythic.approaches.recipes;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
-import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 
-public record RightClickBlockInput(BlockState state, ItemStack stack) implements RecipeInput {
-
+public record CauldronInput(IItemHandler handler) implements RecipeInput {
     @Override
     public @NotNull ItemStack getItem(int index) {
-        if (index != 0) throw new IllegalArgumentException("No item for index " + index);
-        return this.stack;
+        return handler.getStackInSlot(index);
     }
 
     @Override
     public int size() {
-        return 1;
+        return handler.getSlots();
     }
 }
